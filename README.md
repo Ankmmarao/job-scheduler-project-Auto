@@ -364,7 +364,7 @@ MIT License - see [LICENSE](LICENSE) file
 
 ## **👥 Authors**
 
-- **Your Name** - [[GitHub](https://github.com/Ankmmarao](https://github.com/Ankmmarao))
+- **Your Name** - [(https://github.com/Ankmmarao))]
 - **Contributors** - Thank you!
 
 ## **🙏 Acknowledgments**
@@ -376,7 +376,7 @@ MIT License - see [LICENSE](LICENSE) file
 
 ## **📞 Support**
 
-For support, email: your.email@example.com or create an issue on GitHub.
+For support, email:  or create an issue on GitHub.
 
 ---
 
