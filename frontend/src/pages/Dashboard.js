@@ -16,38 +16,48 @@ const Dashboard = () => {
     fetchData();
   }, [filters]);
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      
-      // Fetch jobs
-      const response = await fetch('/api/jobs');
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      setJobs(data);
-      
-      // Try to fetch stats
-      try {
-        const statsResponse = await fetch('/api/jobs/stats/dashboard');
-        if (statsResponse.ok) {
-          const statsData = await statsResponse.json();
-          setStats(statsData);
-        }
-      } catch (statsError) {
-        console.log('Stats endpoint not available');
-      }
-      
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast.error('Failed to load data. Check if backend is running on port 5000');
-      setJobs([]);
-    } finally {
-      setLoading(false);
+  // In your fetchData function, update:
+const fetchData = async () => {
+  try {
+    setLoading(true);
+    
+    // Fetch jobs
+    const response = await fetch('/api/jobs');
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status}`);
     }
-  };
+    
+    const data = await response.json();
+    
+    // Handle new response structure
+    if (data.success && data.jobs) {
+      setJobs(data.jobs);  // <-- Access data.jobs
+    } else if (Array.isArray(data)) {
+      setJobs(data);  // Fallback for old structure
+    } else {
+      console.warn('Unexpected API response:', data);
+      setJobs([]);
+    }
+    
+    // Try to fetch stats
+    try {
+      const statsResponse = await fetch('/api/jobs/stats/dashboard');
+      if (statsResponse.ok) {
+        const statsData = await statsResponse.json();
+        setStats(statsData);
+      }
+    } catch (statsError) {
+      console.log('Stats endpoint not available');
+    }
+    
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    toast.error('Failed to load data. Check if backend is running');
+    setJobs([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleCreateJob = () => {
     navigate('/jobs/create');
